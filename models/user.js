@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
+import validator from "validator";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please Provide Name"],
@@ -16,12 +19,33 @@ const userSchema = mongoose.Schema({
       message: "Please Provide Valid Email",
     },
   },
-  password:{
-    type:String,
-    minlength:6,
-  }
+  password: {
+    type: String,
+    minlength: 6,
+  },
 });
 
+userSchema.pre("save", async function () {
+  this.password = bcrypt.hashSync(this.password, 10);
+});
+
+userSchema.methods.getName = function () {
+  return this.name;
+};
+
+userSchema.methods.getToken = function () {
+  return jwt.sign(
+    {
+      userId: this._id,
+      name: this.name,
+    },
+    process.env.JWT_TOKEN,
+    {
+      expiresIn: "1d",
+    }
+  );
+};
+
 const User = mongoose.model("User", userSchema);
-console.log("User:", User);
+// console.log("User:", User);
 export default User;

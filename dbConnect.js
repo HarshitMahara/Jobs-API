@@ -5,10 +5,8 @@ const dbConnect = (url) => {
   return mongoose.connect(url);
 };
 
-
-
 export default dbConnect;
-// noraml function
+// normal function
 //  function dbConnect(url){
 //     return mongoose.connect(url);
 // }

@@ -1,12 +1,12 @@
 import express from "express";
 import "dotenv/config";
 import dbConnect from "./dbConnect.js";
+import "express-async-errors";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import errorHandler from "./middleware/errorHandler.js";
 import notFound from "./middleware/notFound.js";
-import "express-async-errors";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
