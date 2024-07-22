@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import errorHandler from "./middleware/errorHandler.js";
 import notFound from "./middleware/notFound.js";
+import authorization from "./middleware/authorization.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/job", jobRoutes);
+app.use("/api/v1/job", authorization, jobRoutes);
 app.use(notFound);
 app.use(errorHandler);
 const start = async () => {

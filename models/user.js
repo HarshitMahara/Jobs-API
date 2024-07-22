@@ -41,9 +41,13 @@ userSchema.methods.getToken = function () {
     },
     process.env.JWT_TOKEN,
     {
-      expiresIn: "1d",
+      expiresIn: process.env.JWT_LIFETIME,
     }
   );
+};
+
+userSchema.methods.comparePassword = function (plainPass) {
+  return bcrypt.compareSync(plainPass, this.password);
 };
 
 const User = mongoose.model("User", userSchema);
